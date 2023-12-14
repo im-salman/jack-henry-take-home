@@ -29,6 +29,6 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 
-# documentation - http://127.0.0.1:8080
+# documentation - http://127.0.0.1:9000
 $ npm run documentation:serve
 ```
