@@ -17,6 +17,10 @@ export class WeatherController {
     status: 404,
     description: 'Coordinates, city/state/country, or zip code not provided',
   })
+  @ApiResponse({
+    status: 400,
+    description: '  Error: Bad Request',
+  })
   getWeather(@Query() query: LocationQueryDto) {
     return this.weatherService.getWeather(query);
   }

@@ -1,8 +1,8 @@
 {
   "name": "jack-henry-take-home",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Jack Henry - Take Home",
+  "author": "Salman Siddiqui",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -69,7 +69,7 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "collectCoverageFrom": ["**/*.{!(module),}.(t|j)s"],
+    "collectCoverageFrom": ["**/*.{!(module|model),}.(t|j)s"],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }

@@ -37,7 +37,7 @@ describe('WeatherController', () => {
             },
             forecast: [
               {
-                date: new Date(1672585200 * 1000).toISOString(),
+                date: new Date(1672585200 * 1000),
                 temperature: 28,
                 condition: 'Clear sky',
               },

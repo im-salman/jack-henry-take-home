@@ -10,6 +10,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { LocationQueryDto } from './dto/location-query.dto';
+import { ForecastWeather } from './models/weather-open-api.model';
 
 describe('WeatherService', () => {
   let service: WeatherService;
@@ -140,22 +141,22 @@ describe('WeatherService', () => {
 
   describe('interpretWeatherCondition', () => {
     it('should interpret "clear" condition correctly', () => {
-      const result = service['interpretWeatherCondition']('clear');
+      const result = service['interpretWeatherCondition']('Clear');
       expect(result).toEqual('Clear sky');
     });
 
     it('should interpret "clouds" condition correctly', () => {
-      const result = service['interpretWeatherCondition']('clouds');
+      const result = service['interpretWeatherCondition']('Clouds');
       expect(result).toEqual('Cloudy');
     });
 
     it('should interpret "rain" condition correctly', () => {
-      const result = service['interpretWeatherCondition']('rain');
+      const result = service['interpretWeatherCondition']('Rain');
       expect(result).toEqual('Rainy');
     });
 
     it('should interpret "snow" condition correctly', () => {
-      const result = service['interpretWeatherCondition']('snow');
+      const result = service['interpretWeatherCondition']('Snow');
       expect(result).toEqual('Snowy');
     });
 
@@ -168,11 +169,13 @@ describe('WeatherService', () => {
   describe('interpretForecast', () => {
     it('should interpret forecast list correctly', () => {
       const forecastList = [
-        { dt: 1639540800, weather: [{ main: 'clear' }], main: { temp: 25 } },
-        { dt: 1639627200, weather: [{ main: 'clouds' }], main: { temp: 20 } },
+        { dt: 1639540800, weather: [{ main: 'Clear' }], main: { temp: 25 } },
+        { dt: 1639627200, weather: [{ main: 'Clouds' }], main: { temp: 20 } },
       ];
 
-      const result = service['interpretForecast'](forecastList);
+      const result = service['interpretForecast'](
+        forecastList as ForecastWeather[],
+      );
 
       expect(result).toEqual([
         {
@@ -262,7 +265,6 @@ describe('WeatherService', () => {
       )},${encodeURIComponent(query.state)},${encodeURIComponent(
         query.country,
       )}&appid=${service['API_KEY']}`;
-      console.log(expectedEndpoint);
       expect(result).toEqual(expectedEndpoint);
     });
 

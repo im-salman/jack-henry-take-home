@@ -1,7 +1,8 @@
-import { IsLatitude, IsLongitude, IsString } from 'class-validator';
+import { IsLatitude, IsLongitude, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class LocationQueryDto {
+  @IsOptional()
   @IsLatitude()
   @ApiProperty({
     description: 'Latitude of the location.',
@@ -11,6 +12,7 @@ export class LocationQueryDto {
   })
   lat?: number;
 
+  @IsOptional()
   @IsLongitude()
   @ApiProperty({
     description: 'Longitude of the location.',
@@ -20,6 +22,7 @@ export class LocationQueryDto {
   })
   lon?: number;
 
+  @IsOptional()
   @IsString()
   @ApiProperty({
     description: 'City name.',
@@ -29,6 +32,7 @@ export class LocationQueryDto {
   })
   city?: string;
 
+  @IsOptional()
   @IsString()
   @ApiProperty({
     description: 'State abbreviation.',
@@ -38,6 +42,7 @@ export class LocationQueryDto {
   })
   state?: string;
 
+  @IsOptional()
   @IsString()
   @ApiProperty({
     description: 'Country abbreviation.',
@@ -47,6 +52,7 @@ export class LocationQueryDto {
   })
   country?: string;
 
+  @IsOptional()
   @IsString()
   @ApiProperty({
     description: 'Zip code.',

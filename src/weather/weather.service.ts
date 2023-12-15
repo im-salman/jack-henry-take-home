@@ -5,10 +5,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { forkJoin, throwError } from 'rxjs';
+import { Observable, forkJoin, throwError } from 'rxjs';
 import { AxiosError } from 'axios';
 import { map, catchError } from 'rxjs/operators';
 import { LocationQueryDto } from './dto/location-query.dto';
+import { ForecastItem, WeatherResponse } from './models/weather.model';
+import {
+  CurrentWeatherResponse,
+  ForecastWeather,
+} from './models/weather-open-api.model';
 
 @Injectable()
 export class WeatherService {
@@ -19,7 +24,9 @@ export class WeatherService {
 
   constructor(private readonly http: HttpService) {}
 
-  private getCurrentWeather(query: LocationQueryDto) {
+  private getCurrentWeather(
+    query: LocationQueryDto,
+  ): Observable<CurrentWeatherResponse> {
     const endpoint = this.getEndpoint('weather', query);
     return this.http.get(endpoint).pipe(
       map((response) => response.data),
@@ -27,7 +34,7 @@ export class WeatherService {
     );
   }
 
-  private getForecast(query: LocationQueryDto) {
+  private getForecast(query: LocationQueryDto): Observable<ForecastWeather[]> {
     this.validate(query);
 
     const endpoint = this.getEndpoint('forecast', query);
@@ -77,7 +84,7 @@ export class WeatherService {
     return `${this.BASE_URL}/${endpoint}?${queryParams}&appid=${this.API_KEY}`;
   }
 
-  public getWeather(query: LocationQueryDto) {
+  public getWeather(query: LocationQueryDto): Observable<WeatherResponse> {
     this.validate(query);
 
     const currentWeather$ = this.getCurrentWeather(query);
@@ -117,7 +124,7 @@ export class WeatherService {
     }
   }
 
-  private interpretForecast(forecastList: any[]): any[] {
+  private interpretForecast(forecastList: ForecastWeather[]): ForecastItem[] {
     const interpretedForecast = forecastList.map((forecastItem) => {
       const timestamp = forecastItem.dt * 1000; // Convert timestamp to milliseconds
       const date = new Date(timestamp);
